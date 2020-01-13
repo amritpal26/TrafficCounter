@@ -6,6 +6,7 @@ from detection_pipeline import (PipelineRunner, VehicleDetection, Visualizer)
 
 #=================================================================
 VIDEO_SOURCE = 'traffic.mp4'
+TRAINING_VIDEO = 'traffic.mp4'
 EXIT_PTS = np.array([
     [[732, 720], [732, 590], [1280, 500], [1280, 720]],     # right side
     [[0, 400], [645, 400], [645, 0], [0, 0]]                # left side
@@ -13,14 +14,16 @@ EXIT_PTS = np.array([
 SHAPE_VIDEO = (720,1280)
 #=================================================================
 
-
+def train_model(bg_subtraction, iterations=100):
+    pass
+    
 
 def main():
 
     # create exit masks for the exit parts for counting vehicles.
+    # exit mask is VIDEO_SHAPE * 3 (pixels).
     base = np.zeros(SHAPE_VIDEO + (3,), dtype='uint8')
     exit_masks = cv2.fillPoly(base, EXIT_PTS, (255, 255, 255))[:, :, 0]
-    print(exit_masks)
 
     bg_subtractor = cv2.createBackgroundSubtractorKNN()
 

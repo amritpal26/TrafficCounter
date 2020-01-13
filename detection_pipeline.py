@@ -129,19 +129,21 @@ class Visualizer(PipelineProcessor):
         return frame
 
     def draw_ui(self, frame, vehicle_count, exit_masks):
-            # this just add green mask with opacity to the image
-        # for exit_mask in exit_masks:
-        #     _frame = np.zeros(frame.shape, frame.dtype)
-        #     _frame[:, :] = EXIT_MASK_COLOR
-        #     mask = cv2.bitwise_and(_frame, _frame, mask=exit_mask)
-        #     cv2.addWeighted(mask, 1, frame, 1, 0, frame)
+        
+        # this just add green mask with opacity to the image.
+        # create a mask with the mask color and and with the mask area.
+        for exit_mask in exit_masks:
+            _frame = np.zeros(frame.shape, frame.dtype)
+            _frame[:, :] = EXIT_MASK_COLOR
+            mask = cv2.bitwise_and(_frame, _frame, mask=exit_mask)
+            cv2.addWeighted(mask, 1, frame, 1, 0, frame)
 
         # drawing top block with counts
         cv2.rectangle(frame, (0, 0), (frame.shape[1], 50), (0, 0, 0), cv2.FILLED)
         cv2.putText(frame, ("Vehicles passed: {count} ".format(count=vehicle_count)), (30, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
+        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
+        
         return frame
-
 
     def __call__(self, context):
         frame = context['frame'].copy()
